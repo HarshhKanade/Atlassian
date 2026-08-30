@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Runbook for Atlassian Cloud Migration</title>
+    <meta
+      name="description"
+      content="Enterprise Jira and Confluence migration runbook for Atlassian Cloud, referencing aipstraining.com as the implementation domain."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-theme="light">
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand-mark">A</div>
+        <div>
+          <p class="eyebrow">Atlassian Cloud Migration</p>
+          <h1>Runbook for Atlassian Cloud Migration</h1>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="status-pill"><span class="dot"></span> Cloud migration plan</div>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle color theme">
+          <span class="toggle-icon">🌙</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="progress-shell">
+      <div class="progress-meta">
+        <span>Implementation progress</span>
+        <strong>Phase 1 of 6</strong>
+      </div>
+      <div class="progress-bar" aria-label="Migration progress">
+        <span class="progress-fill"></span>
+      </div>
+      <div class="phase-dots" aria-label="Migration phases">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <nav aria-label="Sidebar navigation">
+          <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#phase1">Phase 1: Discovery</a></li>
+            <li><a href="#phase2">Phase 2: Cleanup & Pre-checks</a></li>
+            <li><a href="#phase3">Phase 3: Apps & Plugins</a></li>
+            <li><a href="#phase4">Phase 4: Admin Hub</a></li>
+            <li><a href="#phase5">Phase 5: Security</a></li>
+            <li><a href="#phase6">Phase 6: Execution</a></li>
+            <li><a href="#references">References</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="content" id="top">
+        <section class="hero card" id="overview">
+          <div class="section-kicker">Enterprise migration guide</div>
+          <h2>Jira and Confluence DC to Atlassian Cloud migration runbook</h2>
+          <p>
+            This guide documents the migration rollout for <strong>aipstraining.com</strong> while staying aligned to Atlassian’s official Cloud migration standards, governance model, and operational readiness requirements.
+          </p>
+          <div class="hero-grid">
+            <div>
+              <h3>Primary goals</h3>
+              <ul>
+                <li>Reduce on-premise data sprawl and migration risk before Cloud cutover.</li>
+                <li>Align user identity, DNS, RBAC, and tenant controls to the Atlassian org model.</li>
+                <li>Preserve business-critical Jira and Confluence workflows with staged migration runs.</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Domain context</h3>
+              <ul>
+                <li>Domain reference: <code>aipstraining.com</code></li>
+                <li>Identity source: SAML + SCIM directory integration</li>
+                <li>Cloud design: primary and secondary production sites</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="phase1" class="content-section">
+          <div class="section-header">
+            <p class="section-kicker">Phase 1</p>
+            <h2>Pre-migration checklist & discovery</h2>
+          </div>
+
+          <div class="alert info">
+            <strong>Information:</strong> Follow the official Atlassian pre-migration checklists before any Jira or Confluence data is moved to Cloud.
+          </div>
+
+          <p>Before project execution, complete the standard discovery steps for Jira and Confluence Cloud migration, with a focus on app compatibility, data quality, and tenant readiness for <strong>aipstraining.com</strong>.</p>
+
+          <ul class="check-list">
+            <li>Review Atlassian system app dependencies, custom integrations, and unsupported customizations.</li>
+            <li>Verify database collation compatibility, integrity checks, and schema assumptions.</li>
+            <li>Review duplicate users, stale groups, malformed content, and inactive accounts.</li>
+            <li>Assess custom fields, workflows, macros, and dashboard objects against Cloud support boundaries.</li>
+            <li>Confirm site architecture, admin ownership, domain control, and migration execution sequencing.</li>
+          </ul>
+
+          <div class="resource-card">
+            <h3>Official Atlassian references</h3>
+            <div class="link-row">
+              <a href="https://support.atlassian.com/migration/docs/jira-pre-migration-checklist/" target="_blank" rel="noreferrer">Jira pre-migration checklist</a>
+              <a href="https://support.atlassian.com/migration/docs/confluence-pre-migration-checklist/" target="_blank" rel="noreferrer">Confluence pre-migration checklist</a>
+              <a href="https://support.atlassian.com/migration/docs/what-is-jira-cloud-migration-assistant/" target="_blank" rel="noreferrer">What is Jira Cloud Migration Assistant</a>
+              <a href="https://support.atlassian.com/migration/docs/what-is-confluence-cloud-migration-assistant/" target="_blank" rel="noreferrer">What is Confluence Cloud Migration Assistant</a>
+              <a href="https://developer.atlassian.com/platform/app-migration/readiness-checklist/" target="_blank" rel="noreferrer">App migration readiness checklist</a>
+              <a href="https://support.atlassian.com/migration/docs/migrate-using-a-lift-and-shift-method/" target="_blank" rel="noreferrer">Lift-and-shift migration method</a>
+              <a href="https://confluence.atlassian.com/enterprise/prepare-to-migrate-to-atlassian-isolated-cloud-1738146689.html" target="_blank" rel="noreferrer">Prepare to migrate to Atlassian Isolated Cloud</a>
+            </div>
+          </div>
+
+          <div class="resource-card table-spacer">
+            <h3>Portfolio insights, cloud readiness, and health checks</h3>
+            <p>After site setup and cleanup are complete, run the Atlassian portfolio insights and readiness review before executing the production migration:</p>
+            <ul class="check-list">
+              <li>Review cloud readiness scores, instance health, and detected instance status.</li>
+              <li>Verify data quality warnings, app compatibility warnings, and migration blockers.</li>
+              <li>Confirm that the target cloud org, site(s), and sandbox placements are correctly aligned.</li>
+              <li>Document any detected issues in a migration risk register before moving to the next run.</li>
+            </ul>
+          </div>
+
+          <div class="alert info table-spacer">
+            <strong>Recommended practice:</strong> Run a dry run or demo migration to a sandbox site before the production migration to identify workflow, macro, and permissions issues in a non-production environment.
+          </div>
+
+          <div class="table-wrap table-spacer" id="jira-checklist-table">
+            <h3>Jira Cloud Migration Assistant pre-migration checklist (24 steps)</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Step</th>
+                  <th>Checklist item</th>
+                  <th>Area</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td>Confirm Jira DC version is supported for migration.</td><td>Platform readiness</td></tr>
+                <tr><td>2</td><td>Review current Jira apps and identify unsupported or legacy add-ons.</td><td>Apps</td></tr>
+                <tr><td>3</td><td>Check database collation and compatibility before import.</td><td>Database</td></tr>
+                <tr><td>4</td><td>Validate system requirements and server diagnostics.</td><td>Infrastructure</td></tr>
+                <tr><td>5</td><td>Confirm there are no duplicate user emails in the authentication layer.</td><td>Users</td></tr>
+                <tr><td>6</td><td>Review inactive, orphaned, or invalid users before migration.</td><td>Users</td></tr>
+                <tr><td>7</td><td>Examine Jira groups, roles, and permission schemes.</td><td>Access</td></tr>
+                <tr><td>8</td><td>Document project-level permissions and schema dependencies.</td><td>Access</td></tr>
+                <tr><td>9</td><td>Identify custom fields that will require Cloud mapping.</td><td>Configuration</td></tr>
+                <tr><td>10</td><td>Map workflows and valid transitions against Cloud functionality.</td><td>Workflows</td></tr>
+                <tr><td>11</td><td>Review issue schemes, screens, and field configuration needs.</td><td>Configuration</td></tr>
+                <tr><td>12</td><td>Assess project attachments and file size impacts.</td><td>Storage</td></tr>
+                <tr><td>13</td><td>Review automation rules that may not behave the same in Cloud.</td><td>Automation</td></tr>
+                <tr><td>14</td><td>Catalog webhook endpoints and external integrations.</td><td>Integrations</td></tr>
+                <tr><td>15</td><td>Identify data to archive or prune before migration.</td><td>Data cleanup</td></tr>
+                <tr><td>16</td><td>Review Jira-to-Confluence links and cross-application dependencies.</td><td>Integrations</td></tr>
+                <tr><td>17</td><td>Prepare a migration test plan using a sandbox or pilot project.</td><td>Testing</td></tr>
+                <tr><td>18</td><td>Confirm domain ownership and user claim configuration.</td><td>Identity</td></tr>
+                <tr><td>19</td><td>Finalize SAML or IdP readiness before user provisioning.</td><td>Identity</td></tr>
+                <tr><td>20</td><td>Ensure org administrators and site admins are assigned.</td><td>Governance</td></tr>
+                <tr><td>21</td><td>Verify API token policies and functional account controls.</td><td>Security</td></tr>
+                <tr><td>22</td><td>Prepare a rollback, communication, and support plan.</td><td>Operations</td></tr>
+                <tr><td>23</td><td>Validate migration sequencing with attachments and app data split.</td><td>Execution</td></tr>
+                <tr><td>24</td><td>Execute the final readiness check before the production migration run.</td><td>Go-live</td></tr>
+              </tbody>
+            </table>
+            <p class="reference-link"><a href="https://support.atlassian.com/migration/docs/jira-pre-migration-checklist/" target="_blank" rel="noreferrer">View the official Jira pre-migration checklist</a></p>
+          </div>
+        </section>
+
+        <section id="phase2" class="content-section">
+          <div class="section-header">
+            <p class="section-kicker">Phase 2</p>
+            <h2>Source repository cleanup & database pre-checks</h2>
+          </div>
+
+          <h3>Jira pruning</h3>
+          <p>Remove stale projects, archived workstreams, and legacy issue data before migration to reduce complexity.</p>
+          <ul class="check-list">
+            <li>Identify abandoned projects and move them into Data Center archival workflows.</li>
+            <li>Review duplicate project keys, reused schemes, and stale automation rules.</li>
+            <li>Retain only production-critical data in the candidate migration set.</li>
+          </ul>
+
+          <h3>Confluence pruning</h3>
+          <p>Clean space inventory and remove unsupported content before the final migration run.</p>
+          <ul class="check-list">
+            <li>Archive outdated spaces and obsolete pages no longer required by operations.</li>
+            <li>Review custom HTML macros, corrupted layouts, and legacy page templates.</li>
+            <li>Remove duplicate content and explain unsupported implementations to stakeholders.</li>
+          </ul>
+
+          <div class="alert warning">
+            <strong>Warning:</strong> Unsupported custom HTML or broken page structures can cause migration errors or render issues in Cloud.
+          </div>
+
+          <h3>Database pre-check 1: Jira duplicate emails</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <span>PostgreSQL / Jira DB</span>
+              <button class="copy-btn" type="button">Copy</button>
+            </div>
+            <pre><code>SELECT lower_email_address, COUNT(id)
+FROM cwd_user
+GROUP BY lower_email_address
+HAVING COUNT(id) &gt; 1;</code></pre>
+          </div>
+          <p class="reference-link">
+            Atlassian support reference:
+            <a href="https://support.atlassian.com/jira/kb/find-duplicate-users-by-email-and-username-in-jira-data-center/" target="_blank" rel="noreferrer">Find duplicate users by email and username</a>
+          </p>
+
+          <h3>Database pre-check 2: Broken group structures</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <span>Jira DB</span>
+              <button class="copy-btn" type="button">Copy</button>
+            </div>
+            <pre><code>SELECT g.id,
+       g.group_name,
+       g.parent_id,
+       p.group_name AS parent_group_name
+FROM cwd_group g
+LEFT JOIN cwd_group p ON g.parent_id = p.id
+WHERE g.parent_id IS NOT NULL
+  AND p.id IS NULL
+ORDER BY g.group_name;</code></pre>
+          </div>
+          <p>Use this query to isolate empty, orphaned, or dangling hierarchy records before provisioning group access in Cloud.</p>
+
+          <h3>Database pre-check 3: Unsupported Confluence macros</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <span>Confluence DB</span>
+              <button class="copy-btn" type="button">Copy</button>
+            </div>
+            <pre><code>SELECT s.spacekey,
+       c.title,
+       bc.contentid,
+       bc.body
+FROM bodycontent bc
+JOIN content c ON bc.contentid = c.id
+JOIN spaces s ON c.spaceid = s.id
+WHERE bc.body ILIKE '%&lt;ac:structured-macro%'
+   OR bc.body ILIKE '%customhtml%'
+   OR bc.body ILIKE '%html-macro%'
+ORDER BY s.spacekey, c.title;</code></pre>
+          </div>
+          <p class="reference-link">
+            Atlassian support reference:
+            <a href="https://support.atlassian.com/confluence/kb/how-to-find-all-pages-and-spaces-that-use-a-specific-macro-via-sql/" target="_blank" rel="noreferrer">Find pages and spaces using a specific macro</a>
+          </p>
+        </section>
+
+        <section id="phase3" class="content-section">
+          <div class="section-header">
+            <p class="section-kicker">Phase 3</p>
+            <h2>App & plugin assessment</h2>
+          </div>
+
+          <div class="comparison-grid">
+            <div class="compare-card">
+              <h3>Forge apps</h3>
+              <ul>
+                <li>Cloud-native architecture</li>
+                <li>Improved security and tenant isolation</li>
+                <li>Aligned with Atlassian Cloud runtime and data policies</li>
+                <li>Better fit for long-term cloud supportability</li>
+              </ul>
+            </div>
+            <div class="compare-card">
+              <h3>Connect / non-Forge apps</h3>
+              <ul>
+                <li>Greater legacy dependency risk</li>
+                <li>May require reconfiguration or replacement</li>
+                <li>Requires data residency and API review</li>
+                <li>Needs compatibility testing before migration</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>App / platform</th>
+                  <th>Migration risk</th>
+                  <th>Recommendation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>EazyBI & Tempo</td>
+                  <td>Medium</td>
+                  <td>Validate reporting semantics and data translation before Cloud cutover.</td>
+                </tr>
+                <tr>
+                  <td>ScriptRunner & JMWE</td>
+                  <td>High</td>
+                  <td>Translate Groovy scripts to Cloud-native equivalents or re-engineer post-functions.</td>
+                </tr>
+                <tr>
+                  <td>Structure & Xray</td>
+                  <td>Medium</td>
+                  <td>Review hierarchical views and test repositories with data mapping to Cloud.</td>
+                </tr>
+                <tr>
+                  <td>Rich Filters & custom fields</td>
+                  <td>Medium</td>
+                  <td>Preserve dashboard metadata and ensure field schema compatibility.</td>
+                </tr>
+                <tr>
+                  <td>Draw.io & PlantUML</td>
+                  <td>Low</td>
+                  <td>Retest inline rendering inside Confluence after migration and validate macros.</td>
+                </tr>
+                <tr>
+                  <td>Bulk Clone & webhooks</td>
+                  <td>High</td>
+                  <td>Preserve automation logic, endpoint trust, and clone workflow behaviors.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="phase4" class="content-section">
+          <div class="section-header">
+            <p class="section-kicker">Phase 4</p>
+            <h2>Enterprise organization setup & identity</h2>
+          </div>
+
+          <ol class="numbered-list">
+            <li><strong>User management:</strong> Standardize global accounts, invitation flows, and identity verification.</li>
+            <li><strong>Group architecture:</strong> Use a clear nested/flat access strategy mapped to business ownership.</li>
+            <li><strong>DNS configuration:</strong> Verify ownership of <code>aipstraining.com</code> using TXT and CNAME records in Atlassian Admin.</li>
+            <li><strong>User claiming:</strong> Set up automatic onboarding for users with @aipstraining.com addresses.</li>
+            <li><strong>Authentication policy:</strong> Enforce SAML with Okta or Azure AD as the identity provider.</li>
+            <li><strong>API token lifecycle:</strong> Enable or disable user-generated API tokens by policy and governance rules.</li>
+            <li><strong>Service and functional accounts:</strong> Keep a separated policy for SSO-enforced user accounts and API-based service accounts.</li>
+            <li><strong>Data security policy:</strong> Disable anonymous public access and block downloads on unmanaged devices.</li>
+            <li><strong>Atlassian Rovo:</strong> Limit AI-first access to sandbox environments for evaluation and staging.</li>
+            <li><strong>Sandbox provisioning:</strong> Create isolated staging instances matching production metadata.</li>
+            <li><strong>Cloud site creation:</strong> Initialize primary and secondary production instances under the org umbrella.</li>
+            <li><strong>URL customization:</strong> Provision vanity paths and custom mappings for user-facing cloud URLs.</li>
+            <li><strong>Org API token controls:</strong> Restrict systemic API access to approved app and automation trust boundaries.</li>
+            <li><strong>Administrative RBAC:</strong> Define strict boundaries between org administrators and site administrators.</li>
+            <li><strong>Site onboarding & consolidation:</strong> Link newly created and legacy sites into a single corporate org model.</li>
+            <li><strong>Enterprise AD sync:</strong> Configure SCIM directory sync to provision users and group membership from Active Directory.</li>
+          </ol>
+
+          <div class="admin-gallery">
+            <div class="mockup-card">
+              <div class="mockup-window image-card">
+                <img
+                  src="https://images.ctfassets.net/zsv3d0ugroxu/4zxhBFIitKozexZaZRiFvy/6cbc158f0cc8ba559cd5e5b3ff7b15af/468f2847-89ca-4d75-8fbc-bfa75f120143.png"
+                  alt="Atlassian Add custom domain admin screen"
+                />
+              </div>
+              <p>Custom domain request flow in Atlassian Administration for app URL and DNS validation</p>
+            </div>
+
+            <div class="mockup-card">
+              <div class="mockup-window">
+                <div class="mockup-header">
+                  <span class="window-dot dot-red"></span>
+                  <span class="window-dot dot-yellow"></span>
+                  <span class="window-dot dot-green"></span>
+                  <span class="mockup-title">Org Overview</span>
+                </div>
+                <div class="mockup-body">
+                  <div class="mockup-sidebar">
+                    <span>Overview</span>
+                    <span>Directory</span>
+                    <span>Apps</span>
+                    <span>Security</span>
+                  </div>
+                  <div class="mockup-content">
+                    <div class="field-row"><span class="pill">Org</span> aipstraining.com</div>
+                    <div class="field-row"><span class="pill success-pill">Ready</span> Cloud tenant active</div>
+                    <div class="field-row"><span class="field-label">Sites</span> 2 production</div>
+                    <div class="field-row"><span class="field-label">Status</span> Healthy</div>
+                  </div>
+                </div>
+              </div>
+              <p>Organization overview for the Atlassian cloud tenant and migration readiness</p>
+            </div>
+
+            <div class="mockup-card">
+              <div class="mockup-window">
+                <div class="mockup-header">
+                  <span class="window-dot dot-red"></span>
+                  <span class="window-dot dot-yellow"></span>
+                  <span class="window-dot dot-green"></span>
+                  <span class="mockup-title">Directory • Users</span>
+                </div>
+                <div class="mockup-body">
+                  <div class="mockup-content wide">
+                    <table class="mini-table">
+                      <thead>
+                        <tr><th>User</th><th>Type</th><th>Status</th></tr>
+                      </thead>
+                      <tbody>
+                        <tr><td>jsmith</td><td>Managed</td><td>Active</td></tr>
+                        <tr><td>teamadmin</td><td>Admin</td><td>Verified</td></tr>
+                        <tr><td>svc-bot</td><td>Service</td><td>Managed</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <p>Directory control for users, managed accounts, service accounts, and admins</p>
+            </div>
+
+            <div class="mockup-card">
+              <div class="mockup-window">
+                <div class="mockup-header">
+                  <span class="window-dot dot-red"></span>
+                  <span class="window-dot dot-yellow"></span>
+                  <span class="window-dot dot-green"></span>
+                  <span class="mockup-title">Domains • DNS</span>
+                </div>
+                <div class="mockup-body">
+                  <div class="mockup-content wide">
+                    <div class="field-row"><span class="pill">TXT</span> aipstraining.com</div>
+                    <div class="field-row"><span class="pill success-pill">Verified</span> Custom domain ready</div>
+                    <div class="field-row"><span class="field-label">CNAME</span> www → cloud.atlassian.net</div>
+                    <div class="field-row"><span class="field-label">Status</span> Active</div>
+                  </div>
+                </div>
+              </div>
+              <p>Domain verification, DNS ownership, and user claim configuration for aipstraining.com</p>
+            </div>
+
+            <div class="mockup-card">
+              <div class="mockup-window">
+                <div class="mockup-header">
+                  <span class="window-dot dot-red"></span>
+                  <span class="window-dot dot-yellow"></span>
+                  <span class="window-dot dot-green"></span>
+                  <span class="mockup-title">Security • SSO</span>
+                </div>
+                <div class="mockup-body">
+                  <div class="mockup-content wide">
+                    <div class="section-box">
+                      <strong>Identity provider</strong>
+                      <p>Okta / Azure AD</p>
+                    </div>
+                    <div class="section-box">
+                      <strong>SSO enforcement</strong>
+                      <p>Required for all users</p>
+                    </div>
+                    <div class="section-box">
+                      <strong>Certificate</strong>
+                      <p>Valid, expiry monitored</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p>Authentication policy and SAML enforcement model for enterprise user access</p>
+            </div>
+
+            <div class="mockup-card">
+              <div class="mockup-window">
+                <div class="mockup-header">
+                  <span class="window-dot dot-red"></span>
+                  <span class="window-dot dot-yellow"></span>
+                  <span class="window-dot dot-green"></span>
+                  <span class="mockup-title">Directory • SCIM</span>
+                </div>
+                <div class="mockup-body">
+                  <div class="mockup-content wide">
+                    <table class="mini-table">
+                      <thead>
+                        <tr><th>User</th><th>Group</th><th>Status</th></tr>
+                      </thead>
+                      <tbody>
+                        <tr><td>jsmith</td><td>jira-admins</td><td>Synced</td></tr>
+                        <tr><td>akim</td><td>confluence-editors</td><td>Synced</td></tr>
+                        <tr><td>svc-bot</td><td>automation</td><td>Managed</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <p>SCIM directory sync and provisioned memberships for Active Directory-driven user onboarding</p>
+            </div>
+
+            <div class="mockup-card">
+              <div class="mockup-window">
+                <div class="mockup-header">
+                  <span class="window-dot dot-red"></span>
+                  <span class="window-dot dot-yellow"></span>
+                  <span class="window-dot dot-green"></span>
+                  <span class="mockup-title">Apps • Access</span>
+                </div>
+                <div class="mockup-body">
+                  <div class="mockup-content wide">
+                    <div class="section-box">
+                      <strong>Marketplace</strong>
+                      <p>Approved Atlassian apps</p>
+                    </div>
+                    <div class="section-box">
+                      <strong>Sandbox</strong>
+                      <p>Staging environment</p>
+                    </div>
+                    <div class="section-box">
+                      <strong>App Access</strong>
+                      <p>Restricted to org policy</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p>Atlassian apps, marketplace access, sandbox controls, and site-level lifecycle management</p>
+            </div>
+          </div>
+
+          <div class="resource-card table-spacer">
+            <h3>Organizational settings to review at the Atlassian org level</h3>
+            <div class="link-row">
+              <span>Overview</span>
+              <span>Directory</span>
+              <span>Users</span>
+              <span>Groups</span>
+              <span>Teams</span>
+              <span>Managed accounts</span>
+              <span>Service accounts</span>
+              <span>Domains</span>
+              <span>Apps</span>
+              <span>App access</span>
+              <span>Sandboxs</span>
+              <span>Rovo</span>
+              <span>Connectors</span>
+              <span>Security</span>
+              <span>Data management</span>
+              <span>Insights</span>
+              <span>Billing</span>
+              <span>Organization settings</span>
+              <span>API token activity</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="phase5" class="content-section">
+          <div class="section-header">
+            <p class="section-kicker">Phase 5</p>
+            <h2>Security & perimeter network whitelisting</h2>
+          </div>
+
+          <p>Harden network access before and during migration by restricting traffic to the required Atlassian Cloud domains and validating egress control paths.</p>
+
+          <ul class="check-list">
+            <li>Whitelist Atlassian Cloud egress destinations used by Jira, Confluence, and migration tooling.</li>
+            <li>Review proxy, firewall, and WAF policies for Cloud API routes and custom domain access.</li>
+            <li>Confirm secure access for admin and operational teams.</li>
+          </ul>
+
+          <div class="alert success">
+            <strong>Success criteria:</strong> Identity, security, and network controls are approved before production migration activity starts.
+          </div>
+
+          <h3>Migration failure troubleshooting</h3>
+          <p>When migration tasks fail, check the following sources in sequence:</p>
+          <div class="resource-card">
+            <div class="log-grid">
+              <div>
+                <h4>1. Splunk / SIEM</h4>
+                <p>Search for migration-related errors, failed API calls, or unusual authentication anomalies.</p>
+              </div>
+              <div>
+                <h4>2. Atlassian migration plan logs</h4>
+                <p>Review Jira/Confluence migration plan logs for object failures, validation issues, retry metadata, and staging results.</p>
+              </div>
+              <div>
+                <h4>3. Local server logs</h4>
+                <p>Inspect Data Center application logs for database timeouts, app configuration conflicts, or malformed content.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert warning table-spacer">
+            <strong>Proactive risk control:</strong> Open an Atlassian support ticket early when a migration issue is blocking the run, especially for repeated failures, data anomalies, or unknown app incompatibilities. This ensures that logs, plan details, and environment context are captured before the issue escalates.
+          </div>
+        </section>
+
+        <section id="phase6" class="content-section">
+          <div class="section-header">
+            <p class="section-kicker">Phase 6</p>
+            <h2>Execution & migration strategies</h2>
+          </div>
+
+          <h3>Integration setup</h3>
+          <p>Preserve native Jira-to-Confluence app links before and after migration so that page connectivity and project references remain intact.</p>
+
+          <h3>Phased migration strategy</h3>
+          <ul class="check-list">
+            <li>Establish the initial migration plan in Data Center and validate dataset scope.</li>
+            <li>Split large migrations into manageable workstreams for optimization and error containment.</li>
+            <li>Stage app, user, and project migrations in sequence instead of all at once.</li>
+          </ul>
+
+          <h3>Execution runbook</h3>
+          <div class="runbook-grid">
+            <div class="runbook-card">
+              <span class="tag">Run 1</span>
+              <h4>Attachments-only migration</h4>
+              <p>Migrate attachments ahead of the main project data to reduce maintenance window impact.</p>
+            </div>
+            <div class="runbook-card">
+              <span class="tag success-tag">Run 2</span>
+              <h4>Configuration & core migration</h4>
+              <p>Execute user mappings, schemas, and primary project/space data transfers in a controlled window.</p>
+            </div>
+          </div>
+
+          <h3>App-specific migration handling</h3>
+          <p>Split app migrations from project migrations to isolate failure domains. If a plugin sync fails, perform a targeted re-run of the migration for the affected app or project set and validate data parity before continuing.</p>
+        </section>
+
+        <section id="references" class="content-section">
+          <div class="section-header">
+            <p class="section-kicker">References</p>
+            <h2>Key Atlassian links</h2>
+          </div>
+          <div class="link-grid">
+            <a href="https://support.atlassian.com/migration/docs/jira-pre-migration-checklist/" target="_blank" rel="noreferrer">Jira pre-migration checklist</a>
+            <a href="https://support.atlassian.com/migration/docs/confluence-pre-migration-checklist/" target="_blank" rel="noreferrer">Confluence pre-migration checklist</a>
+            <a href="https://support.atlassian.com/migration/docs/what-is-jira-cloud-migration-assistant/" target="_blank" rel="noreferrer">Jira Cloud Migration Assistant</a>
+            <a href="https://support.atlassian.com/migration/docs/what-is-confluence-cloud-migration-assistant/" target="_blank" rel="noreferrer">Confluence Cloud Migration Assistant</a>
+            <a href="https://developer.atlassian.com/platform/app-migration/readiness-checklist/" target="_blank" rel="noreferrer">App migration readiness checklist</a>
+            <a href="https://support.atlassian.com/migration/docs/migrate-using-a-lift-and-shift-method/" target="_blank" rel="noreferrer">Lift-and-shift migration method</a>
+            <a href="https://confluence.atlassian.com/enterprise/prepare-to-migrate-to-atlassian-isolated-cloud-1738146689.html" target="_blank" rel="noreferrer">Atlassian Isolated Cloud preparation</a>
+            <a href="https://support.atlassian.com/organization-administration/docs/explore-an-atlassian-organization/" target="_blank" rel="noreferrer">Explore an Atlassian organization</a>
+            <a href="https://support.atlassian.com/organization-administration/docs/add-a-custom-domain/" target="_blank" rel="noreferrer">Add a custom domain</a>
+            <a href="https://support.atlassian.com/organization-administration/docs/invite-users-to-your-organization/" target="_blank" rel="noreferrer">Invite users to your organization</a>
+            <a href="https://support.atlassian.com/organization-administration/docs/manage-groups-in-your-organization/" target="_blank" rel="noreferrer">Manage groups in your organization</a>
+            <a href="https://support.atlassian.com/organization-administration/docs/manage-your-apps/" target="_blank" rel="noreferrer">Manage your apps</a>
+            <a href="https://support.atlassian.com/organization-administration/docs/connect-an-identity-provider/" target="_blank" rel="noreferrer">Connect an identity provider</a>
+            <a href="https://support.atlassian.com/organization-administration/docs/organization-security-settings/" target="_blank" rel="noreferrer">Organization security settings</a>
+            <a href="https://support.atlassian.com/organization-administration/docs/set-download-security/" target="_blank" rel="noreferrer">Set download security</a>
+            <a href="https://support.atlassian.com/organization-administration/docs/update-your-product-and-site-url/" target="_blank" rel="noreferrer">Update your product and site URL</a>
+            <a href="https://support.atlassian.com/organization-administration/docs/manage-products-from-your-atlassian-organization/" target="_blank" rel="noreferrer">Manage products from your Atlassian organization</a>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-links">
+        <a href="disclaimer.html">Disclaimer</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="cookie-policy.html">Cookie Policy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
