@@ -6,7 +6,7 @@
     <title>Runbook for Atlassian Cloud Migration</title>
     <meta
       name="description"
-      content="Enterprise Jira and Confluence migration runbook for Atlassian Cloud, referencing aipstraining.com as the implementation domain."
+      content="Enterprise Jira and Confluence migration runbook for Atlassian Cloud, referencing aiopstraining.com as the implementation domain."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -74,7 +74,7 @@
           <div class="section-kicker">Enterprise migration guide</div>
           <h2>Jira and Confluence DC to Atlassian Cloud migration runbook</h2>
           <p>
-            This guide documents the migration rollout for <strong>aipstraining.com</strong> while staying aligned to Atlassian’s official Cloud migration standards, governance model, and operational readiness requirements.
+            This guide documents the migration rollout for <strong>aiopstraining.com</strong> while staying aligned to Atlassian’s official Cloud migration standards, governance model, and operational readiness requirements.
           </p>
           <div class="hero-grid">
             <div>
@@ -88,7 +88,7 @@
             <div>
               <h3>Domain context</h3>
               <ul>
-                <li>Domain reference: <code>aipstraining.com</code></li>
+                <li>Domain reference: <code>aiopstraining.com</code></li>
                 <li>Identity source: SAML + SCIM directory integration</li>
                 <li>Cloud design: primary and secondary production sites</li>
               </ul>
@@ -106,7 +106,7 @@
             <strong>Information:</strong> Follow the official Atlassian pre-migration checklists before any Jira or Confluence data is moved to Cloud.
           </div>
 
-          <p>Before project execution, complete the standard discovery steps for Jira and Confluence Cloud migration, with a focus on app compatibility, data quality, and tenant readiness for <strong>aipstraining.com</strong>.</p>
+          <p>Before project execution, complete the standard discovery steps for Jira and Confluence Cloud migration, with a focus on app compatibility, data quality, and tenant readiness for <strong>aiopstraining.com</strong>.</p>
 
           <ul class="check-list">
             <li>Review Atlassian system app dependencies, custom integrations, and unsupported customizations.</li>
@@ -350,8 +350,8 @@ ORDER BY s.spacekey, c.title;</code></pre>
           <ol class="numbered-list">
             <li><strong>User management:</strong> Standardize global accounts, invitation flows, and identity verification.</li>
             <li><strong>Group architecture:</strong> Use a clear nested/flat access strategy mapped to business ownership.</li>
-            <li><strong>DNS configuration:</strong> Verify ownership of <code>aipstraining.com</code> using TXT and CNAME records in Atlassian Admin.</li>
-            <li><strong>User claiming:</strong> Set up automatic onboarding for users with @aipstraining.com addresses.</li>
+            <li><strong>DNS configuration:</strong> Verify ownership of <code>aiopstraining.com</code> using TXT and CNAME records in Atlassian Admin.</li>
+            <li><strong>User claiming:</strong> Set up automatic onboarding for users with @aiopstraining.com addresses.</li>
             <li><strong>Authentication policy:</strong> Enforce SAML with Okta or Azure AD as the identity provider.</li>
             <li><strong>API token lifecycle:</strong> Enable or disable user-generated API tokens by policy and governance rules.</li>
             <li><strong>Service and functional accounts:</strong> Keep a separated policy for SSO-enforced user accounts and API-based service accounts.</li>
@@ -393,7 +393,7 @@ ORDER BY s.spacekey, c.title;</code></pre>
                     <span>Security</span>
                   </div>
                   <div class="mockup-content">
-                    <div class="field-row"><span class="pill">Org</span> aipstraining.com</div>
+                    <div class="field-row"><span class="pill">Org</span> aiopstraining.com</div>
                     <div class="field-row"><span class="pill success-pill">Ready</span> Cloud tenant active</div>
                     <div class="field-row"><span class="field-label">Sites</span> 2 production</div>
                     <div class="field-row"><span class="field-label">Status</span> Healthy</div>
@@ -439,14 +439,14 @@ ORDER BY s.spacekey, c.title;</code></pre>
                 </div>
                 <div class="mockup-body">
                   <div class="mockup-content wide">
-                    <div class="field-row"><span class="pill">TXT</span> aipstraining.com</div>
+                    <div class="field-row"><span class="pill">TXT</span> aiopstraining.com</div>
                     <div class="field-row"><span class="pill success-pill">Verified</span> Custom domain ready</div>
                     <div class="field-row"><span class="field-label">CNAME</span> www → cloud.atlassian.net</div>
                     <div class="field-row"><span class="field-label">Status</span> Active</div>
                   </div>
                 </div>
               </div>
-              <p>Domain verification, DNS ownership, and user claim configuration for aipstraining.com</p>
+              <p>Domain verification, DNS ownership, and user claim configuration for aiopstraining.com</p>
             </div>
 
             <div class="mockup-card">
